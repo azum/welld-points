@@ -1,0 +1,34 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd">
+
+
+	<import resource="classpath:zen-webservice-appctx.xml"/>
+	
+	<bean id="exceptionRenderer" class="com.nominanuda.apierror.SpringExceptionRenderer" />
+	
+	<bean id="pointsService" class="ch.welld.points.biz.PointsServiceImpl" />
+	
+	
+	<!-- api -->
+	
+	<bean id="pointsApi" class="ch.welld.points.PointsApiImpl">
+		<property name="pointsService" ref="pointsService" />
+	</bean>
+	
+
+	<!-- properties -->
+	
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
+		<property name="ignoreResourceNotFound" value="true" />
+		<property name="locations">
+			<list>
+				<value>classpath:welld-points.properties</value>
+				<value>file:/etc/welld/welld-points.properties</value>
+				<value>file:${user.home}/etc/welld/welld-points.properties</value>
+			</list>
+		</property>
+	</bean>
+</beans>

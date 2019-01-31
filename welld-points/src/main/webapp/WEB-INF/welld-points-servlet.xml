@@ -1,0 +1,32 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:map="http://nominanuda.com/ns/2011/mvcfrontcontroller-1.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+		http://nominanuda.com/ns/2011/mvcfrontcontroller-1.0 http://nominanuda.com/ns/2011/mvcfrontcontroller-1.0.xsd">
+
+	
+	<map:match id="pointsHyperApi">
+		<map:pattern>/{api */0*}</map:pattern>
+		<map:handler>
+			<bean class="ch.welld.points.hyperapi.ListHyperApiWsSkelton">
+				<property name="api" value="ch.welld.points.api.PointsApi" />
+				<property name="service" ref="pointsApi" />
+			</bean>
+		</map:handler>
+	</map:match>
+	
+	
+	<!-- properties -->
+		
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
+		<property name="ignoreResourceNotFound" value="true" />
+		<property name="locations">
+			<list>
+				<value>classpath:welld-points.properties</value>
+				<value>file:/etc/welld/welld-points.properties</value>
+				<value>file:${user.home}/etc/welld/welld-points.properties</value>
+			</list>
+		</property>
+	</bean>
+</beans>
